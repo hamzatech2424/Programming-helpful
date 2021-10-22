@@ -58,3 +58,6 @@ const styles = StyleSheet.create({
 });
 
 export default Modal;
+
+
+// <OrderFailedModal isVisible={modalVisible} setModalVisiblity={() => { setModalVisible(preState => preState = !preState) }} />
