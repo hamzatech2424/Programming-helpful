@@ -1,0 +1,41 @@
+  const PostRequestForSignUp = async () => {
+
+
+        const Header = {
+            'Content-Type': "application/json",
+            "Accept": "application/json",
+        }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: Header,
+            body: JSON.stringify({ name: SignUpCredentials.Fullname, email: SignUpCredentials.email, password: SignUpCredentials.password, phone_number: SignUpCredentials.contact })
+        };
+        try {
+            const response = await fetch('http://food-app-heroku.herokuapp.com/api/foodapp/user/registration', requestOptions)
+            const data = await response.text()
+            console.log(data)
+
+
+            let newdata = JSON.parse(data)
+            console.log(newdata)
+
+            console.log(typeof newdata)
+
+            if (typeof newdata === "object") {
+                SetloaderCompo(false);
+                // alert(newdata.message + "Now Login")
+                navigation.navigate("LoginPage")
+            }
+
+            else {
+                alert(newdata)
+                SetloaderCompo(false)
+            }
+
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
