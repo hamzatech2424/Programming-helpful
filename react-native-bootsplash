@@ -1,1 +1,1 @@
-yarn react-native generate-bootsplash ./assets/bootsplash_logo.png --background-color="#0C63E7" --logo-width=100 --assets-path=./assets --flavor=main
+yarn react-native generate-bootsplash ./assets/bootsplash_logo.png --background-color="#0C63E7" --logo-width=150 --assets-path=./assets --flavor=main
