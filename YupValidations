@@ -1,0 +1,21 @@
+import * as yup from 'yup';
+
+let schemaSignup = yup.object().shape({
+    userName: yup.string().min(6,({min})=>`*Name should be ${min} character long`).required(`*Name is required`),
+    email: yup.string().email('*Enter correctly formatted email').required(`*Email Address is required`).matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/),
+    password: yup.string().min(8,({min})=> `*Password must be at least ${min} characters` ).required(`*Password is required`)
+  });
+
+
+  let schemaSignin = yup.object().shape({
+    email: yup.string().email('*Enter correctly formatted email').required(`*Email Address is required`).matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/),
+    password: yup.string().min(8,({min})=> `*Password must be at least ${min} characters` ).required(`*Password is required`)
+  });
+
+  let forgetPasswordEmail = yup.object().shape({
+    email: yup.string().email('*Enter correctly formatted email').required(`*Email Address is required`).matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/),
+  });
+
+
+export default schemaSignup  
+export {schemaSignin,forgetPasswordEmail}
