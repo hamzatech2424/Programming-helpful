@@ -52,30 +52,46 @@ const SearchScreen = () => {
     const [secondStep, setSecondStep] = useState(false)
     const [thirdStep, setThirdStep] = useState(false)
 
+    let CustomAnimation = {
+        duration: 500,
+        create: {
+          type: LayoutAnimation.Types.spring,
+          property: LayoutAnimation.Properties.scaleXY,
+          springDamping: 0.9
+        },
+        update: {
+          type: LayoutAnimation.Types.spring,
+          springDamping: 0.9
+        }
+      }
+
 
     const goToSecond = () => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+        LayoutAnimation.configureNext(CustomAnimation);
         setFirstStep(false)
         setSecondStep(true)
         setThirdStep(false)
     }
 
     const goToThird = () => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+        LayoutAnimation.configureNext(CustomAnimation);
+
         setFirstStep(false)
         setSecondStep(false)
         setThirdStep(true)
     }
 
     const backToFirst = () => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+        LayoutAnimation.configureNext(CustomAnimation);
+
         setFirstStep(true)
         setSecondStep(false)
         setThirdStep(false)
     }
 
     const backToSecond = () => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+        LayoutAnimation.configureNext(CustomAnimation);
+
         setFirstStep(false)
         setSecondStep(true)
         setThirdStep(false)
