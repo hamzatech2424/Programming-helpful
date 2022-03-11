@@ -1,77 +1,135 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import CalendarPicker from 'react-native-calendar-picker';
-import { Colors, Fonts } from '../../../themes'
-import { moderateScale } from 'react-native-size-matters';
-import AbstractSimpleButton from '../../AbstractComponents/AbstractButtons/abstractSimpleButton';
-import ArrowLeftSvg from '../../../Assets/Icons/CalendarSvgs/arrowLeftSvg'
-import ArrowRightSvg from '../../../Assets/Icons/CalendarSvgs/arrowRightSvg'
+import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import {
+  Calendar,
+  CalendarList,
+  Agenda,
+  LocaleConfig,
+} from "react-native-calendars";
+import { moderateScale } from "react-native-size-matters";
+import { Colors, Fonts } from "../../../themes";
+import AbstractSimpleButton from "../../AbstractComponents/AbstractButtons/abstractSimpleButton";
+import MyConfig from "./calendarConfig";
+import ArrowLeftSvg from "../../../Assets/Icons/CalendarSvgs/arrowLeftSvg";
+import ArrowRightSvg from "../../../Assets/Icons/CalendarSvgs/arrowRightSvg";
+import { Theme } from "./calendarConfig";
 
-const SH = Dimensions.get('window').height
+MyConfig;
+const INITIAL_DATE = "2022-02-02";
 
-const NewCalendar = () => {
-    return (
-        <View style={styles.mainConatiner}>
-            <View style={styles.viewOne}>
-                <View style={styles.viewOneA}>
-                    <CalendarPicker
-                        showDayStragglers={true}
-                        allowRangeSelection={true}
-                        selectedRangeStyle={{ backgroundColor: "#9f4ef8"}}
-                        selectedDayTextColor={Colors.neutralLightFive}
-                        textStyle={{ fontFamily: Fonts.medium, fontSize: 14 }}
-                        height={SH*0.5}
-                        weekdays={['S', 'M', 'T', 'W', 'T', 'F', 'S',]}
-                        previousComponent={<ArrowLeftSvg />}
-                        nextComponent={<ArrowRightSvg />}
-                        dayLabelsWrapper={{ borderBottomColor: 'transparent', borderTopColor: 'transparent' }}
-                        monthTitleStyle={{ fontFamily: Fonts.bold, fontSize: moderateScale(16, 0.1) }}
-                        yearTitleStyle={{ fontFamily: Fonts.bold, fontSize: moderateScale(16, 0.1) }}
-                        headerWrapperStyle={{ backgroundColor: 'transparent', width: '100%' }}
-                        customDayHeaderStyles={(dayOfWeek) => <Text style={{ color: 'red' }}>{dayOfWeek}</Text>}
-                        todayBackgroundColor={'#4166f2'}
-                        todayTextStyle={{color:Colors.neutralLightFive}}
-                    />
+const CalendarOne = () => {
+  const [selected, setSelected] = useState(INITIAL_DATE);
+  const [myTimePeriod, setmyTimePeriod] = useState({
+    "2022-02-02": {
+      startingDay: true,
+      textColor: Colors.neutralLightOne,
+      color: "#C644FC",
+    },
+    "2022-02-03": { textColor: Colors.neutralLightOne, color: "#C644FC" },
+    "2022-02-04": { textColor: Colors.neutralLightOne, color: "#C644FC" },
+    "2022-02-05": { textColor: Colors.neutralLightOne, color: "#C644FC" },
+    "2022-02-06": { textColor: Colors.neutralLightOne, color: "#C644FC" },
+    "2022-02-07": { textColor: Colors.neutralLightOne, color: "#C644FC" },
+    "2022-02-08": { textColor: Colors.neutralLightOne, color: "#C644FC" },
+    "2022-02-09": { textColor: Colors.neutralLightOne, color: "#C644FC" },
+    "2022-02-10": {
+      endingDay: true,
+      textColor: Colors.neutralLightOne,
+      color: "#C644FC",
+    },
+  });
 
-                </View>
-                <View style={styles.viewOneB}>
+  const [objectOfDates, setObjectOfDates] = useState({});
+  //   console.log(objectOfDates)
+
+  const onDayPress = (day) => {
+    const dateCustomString = day.dateString;
+    const customMade = {};
+    customMade[dateCustomString] = {
+      startingDay: true,
+      textColor: Colors.neutralLightOne,
+      color: "#C644FC",
+    };
+
+    var size = Object.keys(objectOfDates).length;
+    if (size > 0) {
+      objectOfDates.map((item, index) => {
+        return console.log(item);
+      });
+    }
+    setObjectOfDates({ ...customMade, ...objectOfDates });
+  };
+
+  const onMonthChange = (month) => {
+    console.log("month changed", month);
+  };
+
+  return (
+    <View style={styles.mainConatiner}>
+      <View style={styles.viewOne}>
+        <View style={styles.viewOneA}>
+          <Calendar
+            style={{ height: 250 }}
+            enableSwipeMonths
+            current={INITIAL_DATE}
+            onDayPress={onDayPress}
+            onMonthChange={onMonthChange}
+            hideExtraDays={false}
+            theme={Theme}
+            renderArrow={(direction) =>
+              direction === "left" ? <ArrowLeftSvg /> : <ArrowRightSvg />
+            }
+            markingType={"period"}
+            markedDates={{
+              [selected]: {
+                selected: true,
+                disableTouchEvent: true,
+                selectedColor: Colors.primaryOne,
+                selectedTextColor: Colors.neutralLightFive,
+              },
+            }}
+            markedDates={myTimePeriod}
+          />
+        </View>
+        {/* <View style={styles.viewOneB}>
                     <AbstractSimpleButton width={moderateScale(89, 0.1)} height={moderateScale(36, 0.1)} label={'Reset'} type={'transparent'} />
                     <AbstractSimpleButton width={moderateScale(89, 0.1)} height={moderateScale(36, 0.1)} label={'DONE'} />
-                </View>
-            </View>
-        </View>
-    )
-}
+                </View> */}
+      </View>
+    </View>
+  );
+};
 
-export default NewCalendar
+export default CalendarOne;
 
 const styles = StyleSheet.create({
-    mainConatiner: {
-        width: '100%',
-        height: moderateScale(359, 0.1),
-        backgroundColor: Colors.neutralLightOne,
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: Colors.neutralLightFour,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    viewOne: {
-        width: '90%',
-        height: '90%',
-        // backgroundColor: 'red'
-    },
-    viewOneA: {
-        width: '100%',
-        height: '80%',
-        // backgroundColor: 'green'
-    },
-    viewOneB: {
-        width: '100%',
-        height: '20%',
-        // backgroundColor: 'yellow',
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        justifyContent: 'space-between'
-    },
-})
+  mainConatiner: {
+    width: "100%",
+    height: moderateScale(359, 0.1),
+    backgroundColor: Colors.neutralLightOne,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Colors.neutralLightFour,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  viewOne: {
+    width: "90%",
+    height: "90%",
+    // backgroundColor: 'red'
+  },
+  viewOneA: {
+    width: "100%",
+    height: "80%",
+    // backgroundColor: 'green'
+  },
+  viewOneB: {
+    width: "100%",
+    height: "20%",
+    // backgroundColor: 'yellow',
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+  },
+});
+
